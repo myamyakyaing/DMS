@@ -58,7 +58,7 @@ class PrintingVouncherActivity : AppCompatActivity() {
         txt_print_current_date.text = setCurrentDate()
         printList = intent.getSerializableExtra(LIST) as MutableList<SaleData>
         txt_print_total_amount.text = intent.getStringExtra(TOTAL_AMOUNT)
-        txt_print_total_discount.text = intent.getStringExtra(DISCOUNT_PERCCENT)
+        txt_print_total_discount.text = intent.getStringExtra(DISCOUNT_AMOUNT)
         txt_print_net_amount.text = intent.getStringExtra(NET_AMOUNT)
         txt_print_receive_amount.text = intent.getStringExtra(PAY_AMOUNT)
         txt_print_discount.text = intent.getStringExtra(DISCOUNT_PERCCENT)

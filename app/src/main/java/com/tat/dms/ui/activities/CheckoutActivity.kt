@@ -2,6 +2,8 @@ package com.tat.dms.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +25,7 @@ class CheckoutActivity : AppCompatActivity() {
     private val checkoutViewModel: CheckoutViewModel by lazy {
         ViewModelProviders.of(
             this,
-            CheckoutViewModelFactory(Injection.provideCheckoutRepository(this),this)
+            CheckoutViewModelFactory(Injection.provideCheckoutRepository(this), this)
         )
             .get(CheckoutViewModel::class.java)
 
@@ -49,33 +51,33 @@ class CheckoutActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
-        var totalAmount = txt_totalAmount.text.toString()
-        var dis_percent = edit_discount_per.text.toString()
-        var dis_amount = edit_discount_amount.text.toString()
-        var netAmount = txt_netAmount.text.toString()
-        var pay_amount = edit_pay_amount.text.toString()
         txt_checkout_date.text = checkoutViewModel.setCurrentDate()
         checkoutList = intent.getSerializableExtra(LIST) as MutableList<SaleData>
 
         rv_product.adapter = checkoutAdapter
         rv_product.layoutManager = LinearLayoutManager(this)
-
         txt_totalAmount.text = checkoutViewModel.calculateTotalAmount(checkoutList).toString()
+        img_btn_checkout_done.setOnClickListener {
+            val intent = PrintingVouncherActivity.newActivity(
+                this@CheckoutActivity,
+                checkoutList,
+                txt_totalAmount.text.toString(),
+                edit_discount_per.text.toString(),
+                edit_discount_amount.text.toString(),
+                txt_netAmount.text.toString(),
+                edit_pay_amount.text.toString()
+            )
+            startActivity(intent)
 
+        }
         checkoutViewModel.discountAmount.observe(this, Observer {
-            var discount_amount = edit_discount_amount.setText(it.toString())
-            checkoutViewModel.calculateNetAmount(discount_amount.toString())
+            edit_discount_amount.setText(it.toString())
         })
         checkoutViewModel.discountPercent.observe(this, Observer {
             edit_discount_per.setText(it.toString())
         })
         checkoutViewModel.netAmount.observe(this, Observer {
             txt_netAmount.text = it.toString()
-            checkoutViewModel.calculateRefund(
-                edit_pay_amount.text.toString().toInt(),
-                txt_netAmount.text.toString().toInt()
-            )
-            checkoutViewModel.calculateTax(txt_netAmount.text.toString().toInt())
         })
 
         checkoutViewModel.refund.observe(this, Observer {
@@ -88,26 +90,33 @@ class CheckoutActivity : AppCompatActivity() {
 
         btn_discount_per_ok.setOnClickListener {
             checkoutViewModel.calculateDiscountAmount(edit_discount_per.text.toString().toDouble())
+            checkoutViewModel.calculateNetAmount1(edit_discount_per.text.toString().toInt())
+            checkoutViewModel.calculateTax1(edit_discount_per.text.toString().toInt())
         }
         btn_discount_amt_ok.setOnClickListener {
             checkoutViewModel.calculateDiscountPercent(edit_discount_amount.text.toString().toInt())
             checkoutViewModel.calculateNetAmount(edit_discount_amount.text.toString())
+            checkoutViewModel.calculateTax(edit_discount_amount.text.toString().toInt())
         }
+        edit_pay_amount.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {}
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (!s.isNullOrEmpty()) {
+                    checkoutViewModel.calculateRefund(
+                        s?.toString().toInt(),
+                        txt_netAmount.text.toString().toInt()
+                    )
+                } else {
+                    txt_refund.text = "0000"
+                }
+            }
+        })
 
         img_btn_checkout_close.setOnClickListener {
             finish()
-        }
-        img_btn_checkout_done.setOnClickListener {
-            PrintingVouncherActivity.newActivity(
-                this@CheckoutActivity,
-                checkoutList,
-                totalAmount,
-                dis_percent,
-                dis_amount,
-                netAmount,
-                pay_amount
-            )
-            startActivity(intent)
         }
     }
 }

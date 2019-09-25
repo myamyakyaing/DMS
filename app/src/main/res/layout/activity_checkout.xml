@@ -393,8 +393,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:ems="10"
+                    android:hint="0"
                     android:inputType="number"
-                    android:hint="45,5000"
                     app:layout_constraintStart_toEndOf="@+id/textView47"
                     app:layout_constraintTop_toBottomOf="@+id/txt_netAmount" />
 
@@ -497,7 +497,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="10dp"
-                    android:text="12,208,57"
+                    android:text="0"
                     app:layout_constraintStart_toEndOf="@+id/textView55"
                     app:layout_constraintTop_toBottomOf="@+id/edit_due_date" />
 

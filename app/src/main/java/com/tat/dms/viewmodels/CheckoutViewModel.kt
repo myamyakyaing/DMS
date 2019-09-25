@@ -42,6 +42,9 @@ class CheckoutViewModel(
             netAmount.postValue(totalAmount - 0)
         }
     }
+    fun calculateNetAmount1(discount1: Int) {
+            netAmount.postValue(totalAmount - (totalAmount * discount1 / 100))
+    }
 
     fun calculateRefund(payAmount: Int, netAmount: Int) {
         if (payAmount < netAmount) {
@@ -52,7 +55,10 @@ class CheckoutViewModel(
     }
 
     fun calculateTax(netAmount: Int) {
-        tax.postValue((netAmount * 5 / 100))
+        tax.postValue(((totalAmount - netAmount) * 5 / 100))
+    }
+    fun calculateTax1(netAmount1: Int) {
+        tax.postValue(((totalAmount - (totalAmount * netAmount1 / 100)) * 5 / 100))
     }
 
 
