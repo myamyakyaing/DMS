@@ -1,11 +1,16 @@
 package com.tat.dms.vos
 
+import androidx.annotation.NonNull
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class Product:Serializable{
-
+@Entity(tableName = "product")
+class Product : Serializable {
+    @NonNull
+    @PrimaryKey
     @SerializedName("Id")
     @Expose
     var id: String? = null

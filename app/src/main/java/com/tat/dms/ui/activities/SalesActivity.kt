@@ -15,11 +15,14 @@ import com.tat.dms.di.Injection
 import com.tat.dms.ui.adapters.ProductAdapter
 import com.tat.dms.viewmodels.SaleItemViewModel
 import com.tat.dms.viewmodels.factory.SaleItemViewModelFactory
+import com.tat.dms.vos.Customer
 import com.tat.dms.vos.Product
 import com.tat.dms.vos.SaleData
 import kotlinx.android.synthetic.main.activity_sales.*
+import java.io.Serializable
 
 class SalesActivity : AppCompatActivity() {
+    private var selectedCustomer:Customer? = null
     private val productAdapter: ProductAdapter by lazy { ProductAdapter(this::onClickItem) }
     private val pViewModel: SaleItemViewModel by lazy {
         ViewModelProviders.of(
@@ -27,6 +30,18 @@ class SalesActivity : AppCompatActivity() {
             SaleItemViewModelFactory(Injection.provideSaleItemRepository(applicationContext), this)
         )
             .get(SaleItemViewModel::class.java)
+    }
+
+    companion object {
+        val LIST = "list"
+        fun newActivity(
+            context: MainActivity, selectCustomer: Customer
+        ): Intent {
+            val intent = Intent(context, SalesActivity::class.java)
+            intent.putExtra(LIST, selectCustomer)
+            return intent
+
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +53,9 @@ class SalesActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
 
+        selectedCustomer = intent.getSerializableExtra(LIST) as Customer
+        txt_fill_buy_name.text = selectedCustomer!!.customername
+
         sale_current_date.text = pViewModel.setCurrentDate()
 
         img_btn_sale_close.setOnClickListener {
@@ -46,7 +64,7 @@ class SalesActivity : AppCompatActivity() {
         img_btn_sale_done.setOnClickListener {
             val checkoutList = pViewModel.addSalesItem()
             var intent = CheckoutActivity.newActivity(
-                this@SalesActivity,checkoutList
+                this@SalesActivity,checkoutList,selectedCustomer!!
             )
             startActivity(intent)
         }

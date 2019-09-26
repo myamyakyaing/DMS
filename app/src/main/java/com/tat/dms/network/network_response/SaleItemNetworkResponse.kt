@@ -1,4 +1,4 @@
-package com.tat.dms.network
+package com.tat.dms.network.network_response
 
 import com.tat.dms.vos.Datum
 import com.google.gson.annotations.Expose
@@ -16,6 +16,6 @@ class SaleItemNetworkResponse {
     var userId: String? = null
     @SerializedName("data")
     @Expose
-    var data: List<Datum>? = null
+    var data: List<Datum>? = ArrayList()
 
 }

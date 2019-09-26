@@ -3,7 +3,6 @@ package com.tat.dms.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextWatcher
-import android.util.Log
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Toast
@@ -19,13 +18,12 @@ import com.tat.dms.viewmodels.factory.MainViewModelFactory
 import com.tat.dms.vos.Customer
 import kotlinx.android.synthetic.main.activity_main.*
 import android.text.Editable
-import com.tat.dms.network.CustomerNetworkResponse
-import com.tat.dms.vos.Data
 
 //import android.R
 //import android.R
 class MainActivity : AppCompatActivity() {
     var stste: Boolean = false
+    private var chooseCustomer:Customer? = null
     val filterdNames = ArrayList<Customer>()
     private val customerAdapter: CustomerAdapter by lazy { CustomerAdapter(this::onClickItem) }
     private val mViewModel: MainViewModel by lazy {
@@ -59,11 +57,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-//        btn_sales.setOnClickListener {
-//            val intent = Intent(this, SalesActivity::class.java)
-//            startActivity(intent)
-//        }
-
         rv_customer.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = customerAdapter
@@ -74,7 +67,6 @@ class MainActivity : AppCompatActivity() {
 
         mViewModel.errorState.observe(this, Observer {
             Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show()
-            Log.d("Testing", it)
         })
 
         mViewModel.loadCustomerList()
@@ -95,8 +87,11 @@ class MainActivity : AppCompatActivity() {
         txt_customer_latitude.text = customer.latitude.toString()
         txt_customer_longitude.text = customer.longitude.toString()
         txt_customer_remark.text = ""
+        chooseCustomer = customer
         btn_sales.setOnClickListener {
-            val intent = Intent(this, SalesActivity::class.java)
+            var intent = SalesActivity.newActivity(
+                this@MainActivity,chooseCustomer!!
+            )
             startActivity(intent)
         }
 

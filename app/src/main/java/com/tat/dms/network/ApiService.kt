@@ -1,5 +1,7 @@
 package com.tat.dms.network
 
+import com.tat.dms.network.network_response.CustomerNetworkResponse
+import com.tat.dms.network.network_response.SaleItemNetworkResponse
 import io.reactivex.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

@@ -3,6 +3,7 @@ package com.tat.dms.di
 import android.content.Context
 import com.google.gson.Gson
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import com.tat.dms.db.MyDatabase
 import com.tat.dms.network.ApiService
 import com.tat.dms.repositories.*
 import com.tat.dms.util.AppConstants
@@ -27,14 +28,18 @@ object Injection {
             .build()
         return retrofit.create(ApiService::class.java)
     }
+
+    private fun provideDatabase(context:Context): MyDatabase {
+        return MyDatabase.getInstance(context)
+    }
     fun provideMainRepository(context: Context): MainRepository {
-        return MainRepositoryImpl(context,provideApiService())
+        return MainRepositoryImpl(context,provideApiService(),provideDatabase(context))
     }
     fun provideSaleItemRepository(context: Context): SaleItemRepository {
-        return SaleItemRepositoryImp(context,provideApiService())
+        return SaleItemRepositoryImp(context,provideApiService(),provideDatabase(context))
     }
     fun provideCheckoutRepository(context: Context): CheckoutRepository {
-        return CheckoutRepositoryImpl(context,provideApiService())
+        return CheckoutRepositoryImpl(context,provideApiService(), provideDatabase(context))
     }
 
 }

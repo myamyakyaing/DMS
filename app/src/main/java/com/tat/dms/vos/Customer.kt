@@ -1,9 +1,16 @@
 package com.tat.dms.vos
 
+import androidx.annotation.NonNull
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-class Customer {
+import java.io.Serializable
 
+@Entity(tableName = "customer")
+class Customer:Serializable {
+    @NonNull
+    @PrimaryKey
     @SerializedName("id")
     @Expose
     var id: Int? = null
@@ -30,7 +37,7 @@ class Customer {
     var customertypeid: Int? = null
     @SerializedName("CUSTOMER_TYPE_NAME")
     @Expose
-    var customertypename: Any? = null
+    var customertypename: String? = null
     @SerializedName("ADDRESS")
     @Expose
     var address: String? = null

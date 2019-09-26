@@ -2,10 +2,9 @@ package com.tat.dms.vos
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-class Datum {
-
+class Datum (
     @SerializedName("Product")
     @Expose
-    var product: List<Product>? = null
+    var product: List<Product>? = ArrayList()
 
-}
+)

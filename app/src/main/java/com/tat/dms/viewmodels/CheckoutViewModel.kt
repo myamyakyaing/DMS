@@ -4,7 +4,9 @@ import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.tat.dms.repositories.CheckoutRepository
+import com.tat.dms.vos.InvoiceVO
 import com.tat.dms.vos.SaleData
+import com.tat.dms.vos.SaleInvoiceVO
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.roundToInt
@@ -61,10 +63,13 @@ class CheckoutViewModel(
         tax.postValue(((totalAmount - (totalAmount * netAmount1 / 100)) * 5 / 100))
     }
 
-
     fun setCurrentDate(): String {
         val currentDate = Calendar.getInstance().time
         val format = SimpleDateFormat("yyyy-MM-dd")
         return format.format(currentDate)
+    }
+
+    fun saveData(invoice: InvoiceVO, selectedItem: MutableList<SaleInvoiceVO>){
+
     }
 }

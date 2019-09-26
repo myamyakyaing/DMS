@@ -24,7 +24,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 class SaleItemViewModel(
-    private val mainRepo: SaleItemRepository,private val context: Context
+    private val saleRepo: SaleItemRepository,private val context: Context
 ) : BaseViewModel() {
     var discount = 0.0
     var errorState = MutableLiveData<String>()
@@ -41,19 +41,24 @@ class SaleItemViewModel(
     var gson = Gson()
     var param_data = gson.toJson(item_data)
     fun loadSaleItemList() {
-        Log.d("Testing", param_data)
-        launch {
-            mainRepo.SaleItemListData(param_data)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    successState.postValue(it.data!![0].product)
-                }, {
-                    errorState.value = it.localizedMessage
-                    Log.d("Response Success", "Failed")
-                })
-
-        }
+        saleRepo.productData
+            .observeForever {
+                launch {
+                    it
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnNext {
+                            saleRepo.saveDataIntoDatabase(it.data!![0].product!!)
+                        }
+                        .subscribe({ response ->
+                            saleRepo.productData = MutableLiveData()
+                            successState.postValue(response.data!![0].product!!)
+                        }, { error ->
+                            errorState.postValue(error.localizedMessage)
+                        })
+                }
+            }
+        saleRepo.SaleItemListData(param_data)
     }
 
     fun addItem(product: Product){

@@ -26,21 +26,28 @@ class MainViewModel(
     var param_data = gson.toJson(customer_data)
 
     fun loadCustomerList() {
-        Log.d("Testing", param_data)
-        launch {
-            mainRepo.CustomerListData(param_data)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    successState.postValue(it.data[0].customer)
-                    Log.d("Response Success", "${it.data[0].customer}")
-                }, {
-                    errorState.value = it.localizedMessage
-                    Log.d("Response Success", "Failed")
-                })
+        mainRepo.customerData
+            .observeForever {
+                launch {
+                    it
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .doOnNext {
+                            mainRepo.saveDataIntoDatabase(it.data[0].customer)
+                        }
+                        .subscribe({ response ->
+                            mainRepo.customerData = MutableLiveData()
+                            successState.postValue(response.data[0].customer)
+                        }, { error ->
+                            errorState.postValue(error.localizedMessage)
+                        })
+                }
+            }
 
-        }
+
+        mainRepo.CustomerListData(param_data)
     }
+
 
 
 }
