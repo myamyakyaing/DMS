@@ -5,9 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.tat.dms.db.dao.CheckoutDao
-import com.tat.dms.db.dao.CustomerDao
-import com.tat.dms.db.dao.ProductDao
+import com.tat.dms.db.dao.*
 import com.tat.dms.vos.Customer
 import com.tat.dms.vos.InvoiceVO
 import com.tat.dms.vos.Product
@@ -18,6 +16,8 @@ abstract class MyDatabase : RoomDatabase() {
     abstract fun customerDao(): CustomerDao
     abstract fun productDao(): ProductDao
     abstract fun checkoutDao(): CheckoutDao
+    abstract fun reportDao():ReportDao
+    abstract fun saleReportDao(): SaleReportDao
 
     companion object {
         private var instance: MyDatabase? = null

@@ -64,7 +64,15 @@ class CheckoutActivity : AppCompatActivity() {
         rv_product.adapter = checkoutAdapter
         rv_product.layoutManager = LinearLayoutManager(this)
         txt_totalAmount.text = checkoutViewModel.calculateTotalAmount(checkoutList).toString()
-        img_btn_checkout_done.setOnClickListener {
+        img_btn_sale_report_save.setOnClickListener {
+            checkoutViewModel.saveData(
+                txt_invoice_Id.text.toString(),
+                selectedCustomer!!.id!!,
+                txt_checkout_date.text.toString(),
+                txt_netAmount.text.toString(),
+                edit_discount_per.text.toString(),
+                edit_discount_amount.text.toString(),
+                checkoutList)
             val intent = PrintingVouncherActivity.newActivity(
                 this@CheckoutActivity,
                 checkoutList,
@@ -122,7 +130,7 @@ class CheckoutActivity : AppCompatActivity() {
             }
         })
 
-        img_btn_checkout_close.setOnClickListener {
+        img_btn_sale_report_back.setOnClickListener {
             finish()
         }
     }

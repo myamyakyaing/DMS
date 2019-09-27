@@ -13,16 +13,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.activities.SaleReportActivity"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".ui.activities.ReportActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".ui.activities.MainActivity"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".ui.activities.PrintingVouncherActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ui.activities.CheckoutActivity"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="landscape" />
         <activity
             android:name=".ui.activities.SalesActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ui.activities.MainActivity"
+            android:name=".ui.activities.HomeActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

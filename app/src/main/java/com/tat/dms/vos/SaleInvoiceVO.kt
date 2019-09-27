@@ -3,7 +3,7 @@ package com.tat.dms.vos
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "checkout_item")
+@Entity(tableName = "invoice_item")
 class SaleInvoiceVO (
     @PrimaryKey()
     val id: Int,

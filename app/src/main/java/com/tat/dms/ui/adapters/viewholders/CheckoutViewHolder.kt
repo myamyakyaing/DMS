@@ -9,18 +9,18 @@ import kotlin.math.roundToInt
 class CheckoutViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
     fun setData(saleData: SaleData) {
         view.apply {
-            txt_product_name.text = saleData.product_name
-            txt_product_type.text = saleData.product_type
-            txt_product_qty.text = saleData.product_qty.toString()
+            txt_report_invoice_id.text = saleData.product_name
+            txt_report_customer_name.text = saleData.product_type
+            txt_report_date.text = saleData.product_qty.toString()
 
             val salePrice = saleData.product_price.toDouble().roundToInt()
-            txt_product_price.text = salePrice.toString()
+            txt_report_net_amount.text = salePrice.toString()
 
             val promoPrice = (salePrice - ((salePrice * saleData.discount) / 100)).roundToInt()
-            txt_product_pro.text = promoPrice.toString()
+            txt_report_discount_per.text = promoPrice.toString()
 
             val amount = promoPrice * saleData.product_qty
-            txt_product_amount.text = amount.toString()
+            txt_report_discount_amt.text = amount.toString()
 
         }
     }

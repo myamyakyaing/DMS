@@ -69,7 +69,20 @@ class CheckoutViewModel(
         return format.format(currentDate)
     }
 
-    fun saveData(invoice: InvoiceVO, selectedItem: MutableList<SaleInvoiceVO>){
+    fun saveData(invoiceID: String, customerId: Int, saleDate: String,netAmount: String, discountPercent: String, discountAmount: String, selectList: MutableList<SaleData>){
+
+        val invoice = InvoiceVO(invoiceID, customerId, saleDate,netAmount, discountPercent, discountAmount)
+
+        var list: MutableList<SaleInvoiceVO> = mutableListOf()
+
+        for (i in selectList){
+            val salePrice = i.product_price.toDouble().roundToInt()
+            val promotion = (salePrice - ((salePrice * i.discount) / 100)).roundToInt()
+            val amount = i.product_qty * promotion
+            list.add(SaleInvoiceVO(0, invoiceID, i.id, i.product_type, i.product_qty, salePrice.toString(), promotion.toString(), amount.toString()))
+        }
+
+        checkoutRepository.saveDataIntoDatabase(invoice, list)
 
     }
 }
