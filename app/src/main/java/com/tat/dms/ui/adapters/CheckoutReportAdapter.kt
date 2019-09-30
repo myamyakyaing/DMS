@@ -7,7 +7,7 @@ import com.tat.dms.R
 import com.tat.dms.ui.adapters.viewholders.ReportViewHolder
 import com.tat.dms.vos.ReportInvoiceVO
 
-class CheckoutReportAdapter(private val onClick: (sale: ReportInvoiceVO) -> Unit):RecyclerView.Adapter<ReportViewHolder>() {
+class CheckoutReportAdapter(private val onClick: (invoiceId: String) -> Unit):RecyclerView.Adapter<ReportViewHolder>() {
     private var reportList: List<ReportInvoiceVO> = listOf()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReportViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.rv_sale_report,parent,false)

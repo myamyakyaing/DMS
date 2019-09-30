@@ -55,7 +55,6 @@ class SalesActivity : AppCompatActivity() {
 
         selectedCustomer = intent.getSerializableExtra(LIST) as Customer
         txt_fill_buy_name.text = selectedCustomer!!.customername
-
         sale_current_date.text = pViewModel.setCurrentDate()
 
         img_btn_sale_close.setOnClickListener {

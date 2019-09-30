@@ -49,9 +49,8 @@ class ReportActivity : AppCompatActivity() {
         reportViewModel.getInvoiceReport()
 
     }
-    private fun onClickItem(report: ReportInvoiceVO) {
-        val id = report.id.toInt()
-        val intent = SaleReportActivity.newActivity(this@ReportActivity,id)
+    private fun onClickItem(reportId: String) {
+        val intent = SaleReportActivity.newActivity(this@ReportActivity,reportId)
         startActivity(intent)
     }
 }

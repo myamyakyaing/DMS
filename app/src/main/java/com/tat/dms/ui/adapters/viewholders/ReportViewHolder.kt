@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.rv_sale_report.view.*
 
 class ReportViewHolder(
     private val view: View,
-    private val onClick: (sale: ReportInvoiceVO) -> Unit
+    private val onClick: (invoiceId: String) -> Unit
 ) : RecyclerView.ViewHolder(view) {
     fun setData(invoice: ReportInvoiceVO) {
 
@@ -17,8 +17,7 @@ class ReportViewHolder(
         view.txt_report_net_amount.text = invoice.discountPercent
         view.txt_report_discount_per.text = invoice.discountAmount
         view.txt_report_discount_amt.text = invoice.date
-
-        view.setOnClickListener { onClick(invoice) }
+        view.setOnClickListener { onClick(invoice.id) }
 
     }
 

@@ -32,7 +32,7 @@ class SaleReportActivity : AppCompatActivity() {
     companion object {
         val ID = "id"
         fun newActivity(
-            context: ReportActivity, id:Int
+            context: ReportActivity, id:String
         ): Intent {
             val intent = Intent(context, SaleReportActivity::class.java)
             intent.putExtra(ID, id)
@@ -48,7 +48,7 @@ class SaleReportActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
-        intent.getIntExtra(ID,0)
+        val id = intent.getStringExtra(ID)
         img_btn_sale_report_back.setOnClickListener { finish() }
 
         saleReportViewModel.successState.observe(this, Observer {
@@ -62,7 +62,7 @@ class SaleReportActivity : AppCompatActivity() {
         rv_sale_product.adapter = saleReportAdapter
         rv_sale_product.layoutManager = LinearLayoutManager(this)
 
-        saleReportViewModel.getSaleInvoiceReport()
+        saleReportViewModel.getSaleInvoiceReport(id)
 
     }
 

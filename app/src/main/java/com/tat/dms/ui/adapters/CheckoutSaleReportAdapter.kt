@@ -19,6 +19,7 @@ class CheckoutSaleReportAdapter:RecyclerView.Adapter<SaleReportViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: SaleReportViewHolder, position: Int) {
+        holder.setData(saleReportList[0])
 
     }
     fun setData(list: List<ReportSaleInvoiceVO>){

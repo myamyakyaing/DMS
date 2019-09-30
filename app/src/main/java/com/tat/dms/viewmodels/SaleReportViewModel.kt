@@ -12,7 +12,7 @@ class SaleReportViewModel(private val repo:SaleRepotrRepository):BaseViewModel()
     fun getSaleInvoiceReport(id:String){
 
         launch {
-            repo.allSaleInvoiceReport(id = id)
+            repo.allSaleInvoiceReport(id)
                 .subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

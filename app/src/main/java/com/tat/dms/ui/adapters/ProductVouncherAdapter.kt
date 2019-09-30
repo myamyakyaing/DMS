@@ -17,7 +17,7 @@ class ProductVouncherAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductVouncherViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.sales_item_vouncher, parent, false)
-        return ProductVouncherViewHolder(view, onClickQty, onClickFoc,onclickDisc)
+        return ProductVouncherViewHolder(view, onClickQty, onClickFoc, onclickDisc)
     }
 
     override fun getItemCount(): Int {
@@ -25,16 +25,16 @@ class ProductVouncherAdapter(
     }
 
     override fun onBindViewHolder(holder: ProductVouncherViewHolder, position: Int) {
-    holder.setData(itemList[position],position)
+        holder.setData(itemList[position], position)
     }
 
-    fun updateRow(selectedItemList: MutableList<SaleData>, position: Int){
+    fun updateRow(selectedItemList: MutableList<SaleData>, position: Int) {
         this.itemList = selectedItemList
         notifyItemChanged(position)
         calculateNetAmount()
     }
 
-    fun addRow(selectedItemList: MutableList<SaleData>){
+    fun addRow(selectedItemList: MutableList<SaleData>) {
         this.itemList = selectedItemList
         notifyItemInserted(itemList.size - 1)
         calculateNetAmount()
